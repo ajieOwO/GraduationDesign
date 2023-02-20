@@ -8,9 +8,10 @@ function config = loadConfig()
 	config.motionSpace.end = [1000 1000 1000];
 	% 设置运动空间范围
 	
-	config.obstaclesNum.cube = 3;			% 立方体
-	config.obstaclesNum.sphere = 2;		% 圆柱体
-	config.obstaclesNum.cylinder = 3;	% 球体
+	config.obstaclesInfo.cubeNum = 3;			% 立方体
+	config.obstaclesInfo.sphereNum = 2;		% 球体
+	config.obstaclesInfo.cylinderNum = 3;	% 圆柱体
+	config.obstaclesInfo.size = 0.2;				% 障碍物最大尺寸
 	% 设置障碍物数量
 	
 	config.color.alpha = 0.7;
