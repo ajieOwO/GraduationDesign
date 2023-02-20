@@ -1,7 +1,7 @@
 function obstacles = createObstacle(motionSpace, obstaclesInfo)
 	% 生成障碍物
 	obstacles = struct;
-	motionRange = motionSpace.end - motionSpace.start;
+	motionRange = motionSpace.end - motionSpace.start + 1;
 	obstacles.cube = [];
 	obstacles.sphere = [];
 	obstacles.cylinder = [];
@@ -20,34 +20,34 @@ function obstacles = createObstacle(motionSpace, obstaclesInfo)
 	function cube = createCube()
 		% 生成立方体
 		cube = getPosition();
-		cube.length = getSize(motionRange(1));
-		cube.width = getSize(motionRange(1));
-		cube.height = getSize(motionRange(1));
+		cube.length = getSize();
+		cube.width = getSize();
+		cube.height = getSize();
 	end
 
 	function sphere = createSphere()
 		% 生成球体
 		sphere = getPosition();
-		sphere.r = getSize(motionRange(2));
+		sphere.r = getSize();
 	end
 
 	function cylinder = createCylinder()
 		% 生成圆柱体
 		cylinder = getPosition();
-		cylinder.h = getSize(motionRange(1));
-		cylinder.r = getSize(motionRange(1));
+		cylinder.h = getSize();
+		cylinder.r = getSize();
 	end
 
 	function obstacle = getPosition()
 		% 生成随机三维坐标
-		obstacle.x = rand(1) * motionRange(1);
-		obstacle.y = rand(1) * motionRange(2);
-		obstacle.z = rand(1) * motionRange(3);
+		obstacle.x = rand(1) * motionRange;
+		obstacle.y = rand(1) * motionRange;
+		obstacle.z = rand(1) * motionRange;
 	end
 
-	function size = getSize(range)
+	function size = getSize()
 		% 生成随机尺寸
-		size = (rand(1) + 0.1) * range * obstaclesInfo.size;
+		size = (rand(1) + 0.1) * motionRange * obstaclesInfo.size;
 	end
 	
 end

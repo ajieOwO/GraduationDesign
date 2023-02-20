@@ -20,16 +20,16 @@ function drawMap(config)
 	grid on;	% 显示网格
 	axis equal;	% 保持坐标轴比例一致
 	range = [rangeStart; rangeEnd];
-	axis(range(:)');	% 设置显示范围
+	axis([range; range; range]);	% 设置显示范围
 
 	xlabel('x');
 	ylabel('y');
 	zlabel('z');
 	title(config.title);
-	plot3(rangeStart(1), rangeStart(2), rangeStart(3), '*');
-	plot3(rangeEnd(1), rangeEnd(2), rangeEnd(3), '*');
-	text(rangeStart(1), rangeStart(2), rangeStart(3), '起点');
-	text(rangeEnd(1), rangeEnd(2), rangeEnd(3), '终点');
+	plot3(rangeStart, rangeStart, rangeStart, '*');
+	plot3(rangeEnd, rangeEnd, rangeEnd, '*');
+	text(rangeStart, rangeStart, rangeStart, '起点');
+	text(rangeEnd, rangeEnd, rangeEnd, '终点');
 
 	set(gcf,'outerposition',get(0,'screensize'));%全屏显示figure
 end

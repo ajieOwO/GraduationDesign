@@ -4,8 +4,8 @@ function config = loadConfig()
 
 	config.title = 'A*算法静态避障演示';
 
-	config.motionSpace.start = [0 0 0];
-	config.motionSpace.end = [1000 1000 1000];
+	config.motionSpace.start = 1;
+	config.motionSpace.end = 1000;
 	% 设置运动空间范围
 	
 	config.obstaclesInfo.cubeNum = 3;			% 立方体数量

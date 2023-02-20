@@ -1,15 +1,33 @@
 function path = findPath(range, obstacles)
 	% 寻路
 	for i = 1 : 50;
-		position.x = rand(1) * (range.end(1) - range.start(1));
-		position.y = rand(1) * (range.end(2) - range.start(2));
-		position.z = rand(1) * (range.end(3) - range.start(3));
+		position.x = rand(1) * (range.end - range.start);
+		position.y = rand(1) * (range.end - range.start);
+		position.z = rand(1) * (range.end - range.start);
 		color = 'green';
 		if isObstacle(position, obstacles)
 			color = 'red';
 		end
 		plot3(position.x, position.y, position.z, '*', 'Color', color);
 	end
+
+	list = [];				% 所有节点
+	
+
+	originNode = struct;
+	originNode.x = range.start;
+	originNode.y = range.start;
+	originNode.z = range.start;
+	originNode.from = 0;
+	originNode.cost = 0;
+	originNode.expectCost = sum(diag((range.end - range.start + 1)' * (range.end - range.start + 1))') ^ 0.5;
+	
+	for i = 1 : 1 : det(diag(range.end - range.start + 1))
+		break;
+		
+
+	end
+	
 end
 
 function boolen = isObstacle(position, obstacles)
