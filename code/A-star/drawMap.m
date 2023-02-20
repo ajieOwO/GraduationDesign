@@ -24,6 +24,7 @@ function drawMap(config)
 	ylabel('y');
 	zlabel('z');
 	title(config.title);
+	set(gcf,'outerposition',get(0,'screensize'));%全屏显示figure
 end
 
 function drawCube(cube, color)
