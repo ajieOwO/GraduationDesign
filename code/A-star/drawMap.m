@@ -9,6 +9,9 @@ function drawMap(config)
 	for i = 1:length(config.obstacles.sphere)
 		drawSphere(config.obstacles.sphere(i), config.color.obstacleSurface, config.color.alpha);
 	end
+	for i = 1:length(config.obstacles.cylinder)
+		drawCylinder(config.obstacles.cylinder(i), config.color.obstacleSurface, config.color.alpha);
+	end
 	alpha(config.color.alpha);
 
 	view(3);	% 展示三维窗口
@@ -48,11 +51,15 @@ end
 
 function drawSphere(config, color, alpha)
 	% 绘制球体
-	[x, y, z] = sphere(50);
-	mesh(x * config.r + config.x, y * config.r + config.y, z * config.r + config.z, 'FaceColor', color, 'EdgeColor', 'none', 'FaceAlpha', alpha)
+	[x, y, z] = sphere(20);
+	mesh(x * config.r + config.x, y * config.r + config.y, z * config.r + config.z, 'FaceColor', color, 'EdgeColor', 'black', 'FaceAlpha', alpha)
 end
 
 function drawCylinder(config, color, alpha)
 	% 绘制圆柱体
-	
+	[x, y, z] = cylinder;
+	mesh(x * config.r + config.x, y * config.r + config.y, z * config.h + config.z, 'FaceColor', color, 'EdgeColor', 'black', 'FaceAlpha', alpha);
+	theta = 0: 0.1: 2 * pi;
+	fill3(sin(theta) * config.r + config.x, cos(theta) * config.r + config.y, theta * 0 + config.z, color);
+	fill3(sin(theta) * config.r + config.x, cos(theta) * config.r + config.y, theta * 0 + config.z + config.h, color);
 end
