@@ -1,9 +1,9 @@
 function path = findPath(range, obstacles)
 	% 寻路
 	for i = 1 : 50;
-		position.x = rand(1) * (range.end - range.start);
-		position.y = rand(1) * (range.end - range.start);
-		position.z = rand(1) * (range.end - range.start);
+		position.x = rand(1) * range;
+		position.y = rand(1) * range;
+		position.z = rand(1) * range;
 		color = 'green';
 		if isObstacle(position, obstacles)
 			color = 'red';
@@ -11,18 +11,17 @@ function path = findPath(range, obstacles)
 		plot3(position.x, position.y, position.z, '*', 'Color', color);
 	end
 
-	list = [];				% 所有节点
+	list = struct;				% 所有节点
 	
 
-	originNode = struct;
-	originNode.x = range.start;
-	originNode.y = range.start;
-	originNode.z = range.start;
-	originNode.from = 0;
-	originNode.cost = 0;
-	originNode.expectCost = sum(diag((range.end - range.start + 1)' * (range.end - range.start + 1))') ^ 0.5;
-	
-	for i = 1 : 1 : det(diag(range.end - range.start + 1))
+	list(1, 1, 1).x = 1;
+	list(1, 1, 1).y = 1;
+	list(1, 1, 1).z = 1;
+	list(1, 1, 1).from = 0;
+	list(1, 1, 1).cost = 0;
+	list(1, 1, 1).expectCost = (3 * (range - 1) ^ 2) ^ 0.5;
+
+	for i = 1 : 1 : range ^ 3
 		break;
 		
 

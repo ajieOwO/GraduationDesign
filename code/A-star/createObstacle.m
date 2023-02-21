@@ -1,7 +1,6 @@
-function obstacles = createObstacle(motionSpace, obstaclesInfo)
+function obstacles = createObstacle(motionRange, obstaclesInfo)
 	% 生成障碍物
 	obstacles = struct;
-	motionRange = motionSpace.end - motionSpace.start + 1;
 	obstacles.cube = [];
 	obstacles.sphere = [];
 	obstacles.cylinder = [];

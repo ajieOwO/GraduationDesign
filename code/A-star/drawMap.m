@@ -14,22 +14,21 @@ function drawMap(config)
 	end
 	alpha(config.color.alpha);
 
-	rangeStart = config.motionSpace.start;
-	rangeEnd = config.motionSpace.end;
+	motionRange = config.motionRange;
 	view(3);	% 展示三维窗口
 	grid on;	% 显示网格
 	axis equal;	% 保持坐标轴比例一致
-	range = [rangeStart; rangeEnd];
+	range = [1; motionRange];
 	axis([range; range; range]);	% 设置显示范围
 
 	xlabel('x');
 	ylabel('y');
 	zlabel('z');
 	title(config.title);
-	plot3(rangeStart, rangeStart, rangeStart, '*');
-	plot3(rangeEnd, rangeEnd, rangeEnd, '*');
-	text(rangeStart, rangeStart, rangeStart, '起点');
-	text(rangeEnd, rangeEnd, rangeEnd, '终点');
+	plot3(1, 1, 1, '*');
+	plot3(motionRange, motionRange, motionRange, '*');
+	text(1, 1, 1, '起点');
+	text(motionRange, motionRange, motionRange, '终点');
 
 	set(gcf,'outerposition',get(0,'screensize'));%全屏显示figure
 end

@@ -3,6 +3,6 @@ close;
 clc;
 
 config = loadConfig();
-config.obstacles = createObstacle(config.motionSpace, config.obstaclesInfo);
+config.obstacles = createObstacle(config.motionRange, config.obstaclesInfo);
 drawMap(config);
-findPath(config.motionSpace, config.obstacles);
+findPath(config.motionRange, config.obstacles);
