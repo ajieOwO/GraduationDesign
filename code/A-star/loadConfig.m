@@ -11,6 +11,7 @@ function config = loadConfig()
 	config.obstaclesInfo.sphereNum = 2;		% 球体数量
 	config.obstaclesInfo.cylinderNum = 3;	% 圆柱体数量
 	config.obstaclesInfo.size = 0.2;			% 障碍物最大尺寸（相对于运动空间）
+	config.obstaclesInfo.range = 0.5;			% 障碍物出现的范围（以运动空间中心为中心点）
 	% 设置障碍物数量
 	
 	config.color.alpha = 0.7;

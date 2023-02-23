@@ -39,9 +39,9 @@ function obstacles = createObstacle(motionRange, obstaclesInfo)
 
 	function obstacle = getPosition()
 		% 生成随机三维坐标
-		obstacle.x = rand(1) * motionRange;
-		obstacle.y = rand(1) * motionRange;
-		obstacle.z = rand(1) * motionRange;
+		obstacle.x = (obstaclesInfo.range * (rand(1) - 0.5) + 0.5) * motionRange;
+		obstacle.y = (obstaclesInfo.range * (rand(1) - 0.5) + 0.5) * motionRange;
+		obstacle.z = (obstaclesInfo.range * (rand(1) - 0.5) + 0.5) * motionRange;
 	end
 
 	function size = getSize()
