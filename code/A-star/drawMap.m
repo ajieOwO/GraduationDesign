@@ -1,4 +1,4 @@
-function drawMap(config)
+function drawMap(config, path)
 	% 绘制地图
 	figure(1);
 	hold on;
@@ -13,6 +13,10 @@ function drawMap(config)
 		drawCylinder(config.obstacles.cylinder(i), config.color.obstacleSurface, config.color.alpha);
 	end
 	alpha(config.color.alpha);
+	% 绘制障碍物
+
+	plot3(path(:, 1), path(:, 2), path(:, 3));
+	% 绘制路径
 
 	motionRange = config.motionRange;
 	view(3);	% 展示三维窗口

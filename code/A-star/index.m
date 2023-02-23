@@ -4,5 +4,5 @@ clc;
 
 config = loadConfig();
 config.obstacles = createObstacle(config.motionRange, config.obstaclesInfo);
-drawMap(config);
-findPath(config.motionRange, config.obstacles);
+path = findPath(config.motionRange, config.obstacles);
+drawMap(config, path);
