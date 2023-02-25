@@ -2,9 +2,8 @@ function config = loadConfig()
 	%	加载配置
 	config = struct;
 
-	config.title = 'A*算法静态避障演示';
 
-	config.motionRange = 1000;
+	config.motionRange = 100;
 	% 设置运动空间范围
 	
 	config.obstaclesInfo.cubeNum = 3;			% 立方体数量

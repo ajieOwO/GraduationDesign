@@ -42,7 +42,6 @@ function path = findPath(range, obstacles)
 		%	获取代价总和最小的节点索引
 
 		if node.x == range && node.y == range && node.z == range
-			save list list;
 			while true
 				path = [path; node.x node.y node.z];
 				if(node.x == 1 && node.y == 1 && node.z == 1)
