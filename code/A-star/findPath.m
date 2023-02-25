@@ -20,6 +20,8 @@ function path = findPath(range, obstacles)
 	path = [];
 	% 初始化结果
 
+	cd '../';	% 返回上层目录以调用isObstacle.m
+
 	while size(openList, 1) > 0
 		% 打开的节点不为空时，保持循环
 
@@ -45,6 +47,7 @@ function path = findPath(range, obstacles)
 			while true
 				path = [path; node.x node.y node.z];
 				if(node.x == 1 && node.y == 1 && node.z == 1)
+					cd './A-star';	% 回到当前目录
 					return
 				end
 				node = list(node.from(1), node.from(2), node.from(3));
@@ -102,44 +105,4 @@ function path = findPath(range, obstacles)
 			end
 		end
 	end
-end
-
-function boolen = isObstacle(position, obstacles)
-	% 此坐标是否为障碍物
-	boolen = false;
-	for k = 1 : length(obstacles.cube)
-		if abs(position.x - obstacles.cube(k).x) <= obstacles.cube(k).length
-			if abs(position.y - obstacles.cube(k).y) <= obstacles.cube(k).width
-				if abs(position.z - obstacles.cube(k).z) <= obstacles.cube(k).height
-					boolen = true;
-					return;
-				end
-			end
-		end
-	end
-	% 此坐标是否在立方体障碍物内
-
-	for k = 1 : length(obstacles.sphere)
-		x = (obstacles.sphere(k).x - position.x) ^ 2;
-		y = (obstacles.sphere(k).y - position.y) ^ 2;
-		z = (obstacles.sphere(k).z - position.z) ^ 2;
-		if x + y + z <= obstacles.sphere(k).r ^ 2
-			boolen = true;
-			return;
-		end
-	end
-	% 此坐标是否在球体障碍物内
-
-	for k = 1 : length(obstacles.cylinder)
-		x = (obstacles.cylinder(k).x - position.x) ^ 2;
-		y = (obstacles.cylinder(k).y - position.y) ^ 2;
-		h = position.z - obstacles.cylinder(k).z;
-		if x + y <= obstacles.cylinder(k).r ^ 2
-			if h >= 0 && h <= obstacles.cylinder(k).h
-				boolen = true;
-				return;
-			end
-		end
-	end
-	% 此坐标是否在圆柱体障碍物内
 end
