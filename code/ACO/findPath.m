@@ -6,16 +6,40 @@ function path = findPath(range, obstacles, aco)
 
 	pheromone = zeros(3, 3, 3, range ^ 3);	% 初始化信息素矩阵
 
-	for m = 1 : 1 : aco.antNum	% 每只蚂蚁单独计算
+	for times = 1 : 1 : aco.Iterations
+		tic;
+		kill = 0;
+		for m = 1 : 1 : aco.antNum	% 每只蚂蚁单独计算
+			[ant success] = findSinglePath(true);	% 进行一次寻路
+			if success
+				refreshPhoromone(ant, range ^ 2 / length(ant));
+				% 根据长度设置信息素浓度
+			else
+				kill = kill + 1;
+				refreshPhoromone(ant, -0.1);
+			end
+		end
+		pheromone = pheromone * 0.9;	% 淡化信息素浓度
+		toc;
+		disp(['第',num2str(times),'轮迭代：落入陷阱', num2str(kill), '只', '，成功寻路', num2str(aco.antNum - kill), '只']);
+	end
+
+	[ant success] = findSinglePath(false);
+	save pheromone pheromone;
+	for k = 1 : 1 : length(ant)
+		path = [path; getPosition(ant(k))];
+	end
+
+	cd './ACO';
+
+	function [ant success] = findSinglePath(excitation)
 		ant = getIndex([1 1 1]);	% 蚂蚁的路径
 		for n = 1 : 1 : range ^ 3	% 进行下一步的路径尝试，最长不可能超过节点总数
 
 			current = ant(n);	% 获取蚂蚁当前所处节点索引
 			if current == target	% 蚂蚁到达终点
-				refreshPhoromone(0.1);
-				disp('到达终点');
-				% 此路径到达终点，增加信息素浓度
-				break;
+				success = true;
+				return;
 			end
 
 			nearList = [];	% 候选节点列表
@@ -27,7 +51,6 @@ function path = findPath(range, obstacles, aco)
 						if a == 0 && b == 0 && c == 0
 							continue;	% 排除当前节点
 						end
-
 
 						node = getPosition(current) + [a b c];	% 新节点坐标
 						index = getIndex(node);	% 新节点索引
@@ -45,7 +68,12 @@ function path = findPath(range, obstacles, aco)
 						otherPhoromone = pheromone(2 - a, 2 - b, 2 - c, index);
 						% 分别获取本节点储存的目标节点信息素浓度，和目标节点储存的本节点信息素浓度
 
-						nearList = [nearList; [index, currentPhoromone + otherPhoromone]];
+
+						thePheromone = currentPhoromone + otherPhoromone;
+						if excitation
+							thePheromone = (thePheromone + 1) * rand(1) * aco.excitation;
+						end
+						nearList = [nearList; [index, thePheromone]];
 						% 将当前新节点列入候选节点
 					end
 				end
@@ -57,15 +85,13 @@ function path = findPath(range, obstacles, aco)
 				nearestNodeIndex = nearList(nearestIndex, 1);	% 最优节点的索引
 				ant = [ant nearestNodeIndex];	% 将信息素浓度最高的作为下一节点
 			else	% 无可选节点
-				% 此路径落入陷阱，全部削减信息素浓度
-				disp('落入陷阱');
-				refreshPhoromone(-0.1);
-				break;
+				success = false;
+				return;
 			end
 		end
 	end
 
-	function refreshPhoromone(increase)
+	function refreshPhoromone(ant, increase)
 		% 刷新信息素
 		for k = 2 : 1 : length(ant)	% 刷新所有节点信息素浓度
 			thisNode = ant(k - 1);	% 当前节点索引
