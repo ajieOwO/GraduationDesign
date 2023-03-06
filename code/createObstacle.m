@@ -5,13 +5,13 @@ function obstacles = createObstacle(motionRange, obstaclesInfo)
 	obstacles.sphere = [];
 	obstacles.cylinder = [];
 	
-	for i = 1:obstaclesInfo.cubeNum
+	for i = 1 : obstaclesInfo.cubeNum
 		obstacles.cube = [obstacles.cube createCube()];
 	end
-	for i = 1:obstaclesInfo.sphereNum
+	for i = 1 : obstaclesInfo.sphereNum
 		obstacles.sphere = [obstacles.sphere createSphere()];
 	end
-	for i = 1:obstaclesInfo.cylinderNum
+	for i = 1 : obstaclesInfo.cylinderNum
 		obstacles.cylinder = [obstacles.cylinder createCylinder()];
 	end
 	

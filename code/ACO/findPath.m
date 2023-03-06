@@ -6,10 +6,10 @@ function path = findPath(range, obstacles, aco)
 
 	pheromone = zeros(3, 3, 3, range ^ 3);	% 初始化信息素矩阵
 
-	for times = 1 : 1 : aco.Iterations
+	for times = 1 : aco.Iterations
 		tic;
 		kill = 0;
-		for m = 1 : 1 : aco.antNum	% 每只蚂蚁单独计算
+		for m = 1 : aco.antNum	% 每只蚂蚁单独计算
 			[ant success] = findSinglePath(true);	% 进行一次寻路
 			if success
 				refreshPhoromone(ant, range ^ 2 / length(ant));
@@ -26,7 +26,7 @@ function path = findPath(range, obstacles, aco)
 
 	[ant success] = findSinglePath(false);
 	save pheromone pheromone;
-	for k = 1 : 1 : length(ant)
+	for k = 1 : length(ant)
 		path = [path; getPosition(ant(k))];
 	end
 
@@ -34,7 +34,7 @@ function path = findPath(range, obstacles, aco)
 
 	function [ant success] = findSinglePath(excitation)
 		ant = getIndex([1 1 1]);	% 蚂蚁的路径
-		for n = 1 : 1 : range ^ 3	% 进行下一步的路径尝试，最长不可能超过节点总数
+		for n = 1 : range ^ 3	% 进行下一步的路径尝试，最长不可能超过节点总数
 
 			current = ant(n);	% 获取蚂蚁当前所处节点索引
 			if current == target	% 蚂蚁到达终点
@@ -44,9 +44,9 @@ function path = findPath(range, obstacles, aco)
 
 			nearList = [];	% 候选节点列表
 			
-			for a = -1 : 1 : 1
-				for b = -1 : 1 : 1
-					for c = -1 : 1 : 1
+			for a = -1 : 1
+				for b = -1 : 1
+					for c = -1 : 1
 						% 遍历周围所有节点
 						if a == 0 && b == 0 && c == 0
 							continue;	% 排除当前节点

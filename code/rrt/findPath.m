@@ -19,7 +19,7 @@ function path = findPath(range, obstacles, step)
 		nearest = node(index(1), :);	% 获取最近节点
 		diff = (point - nearest) / tmp(1) ^ 0.5;	% 计算步长
 		reachable = true;	% 初始化为可达
-		for k = 1 : 1 : step	% 将路径离散化并进行障碍物判断
+		for k = 1 : step	% 将路径离散化并进行障碍物判断
 			tmp = nearest + diff * k;
 			if isObstacle(struct('x', tmp(1), 'y', tmp(2), 'z', tmp(3)), obstacles)	% 若为障碍物
 				reachable = false;	% 不可达

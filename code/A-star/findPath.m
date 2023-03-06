@@ -26,7 +26,7 @@ function path = findPath(range, obstacles)
 		% 打开的节点不为空时，保持循环
 
 		cost = [];
-		for k = 1 : 1 : size(openList, 1)
+		for k = 1 : size(openList, 1)
 			node = list(openList(k, 1), openList(k, 2), openList(k, 2));
 			if node.status == 2
 				cost = [cost; [node.cost + node.expectCost] node.x node.y node.z];
@@ -66,11 +66,11 @@ function path = findPath(range, obstacles)
 		list(node.x, node.y, node.z).status = 1;	% 关闭此节点
 		list(node.x, node.y, node.z).index = 0;	% 清空此节点的索引
 
-		for x = node.x - 1 : 1 : node.x + 1
+		for x = node.x - 1 : node.x + 1
 			if x > 0 && x <= range
-				for y = node.y - 1 : 1 : node.y + 1
+				for y = node.y - 1 : node.y + 1
 					if y > 0 && y <= range
-						for z = node.z - 1 : 1 : node.z + 1
+						for z = node.z - 1 : node.z + 1
 							if z > 0 && z <= range
 								if x == node.x && y == node.y && z == node.z	% 新节点坐标重复
 									continue;	% 跳过此节点
