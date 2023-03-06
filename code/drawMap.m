@@ -3,14 +3,14 @@ function drawMap(config, path)
 	figure(1);
 	hold on;
 
-	for i = 1:length(config.obstacles.cube)
-		drawCube(config.obstacles.cube(i), config.color.obstacleSurface);
+	for k = 1 : length(config.obstacles.cube)
+		drawCube(config.obstacles.cube(k), config.color.obstacleSurface);
 	end
-	for i = 1:length(config.obstacles.sphere)
-		drawSphere(config.obstacles.sphere(i), config.color.obstacleSurface, config.color.alpha);
+	for k = 1 : length(config.obstacles.sphere)
+		drawSphere(config.obstacles.sphere(k), config.color.obstacleSurface, config.color.alpha);
 	end
-	for i = 1:length(config.obstacles.cylinder)
-		drawCylinder(config.obstacles.cylinder(i), config.color.obstacleSurface, config.color.alpha);
+	for k = 1 : length(config.obstacles.cylinder)
+		drawCylinder(config.obstacles.cylinder(k), config.color.obstacleSurface, config.color.alpha);
 	end
 	alpha(config.color.alpha);
 	% 绘制障碍物
