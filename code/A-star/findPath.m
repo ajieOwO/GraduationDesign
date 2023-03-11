@@ -81,6 +81,8 @@ function path = findPath(range, obstacles)
 										continue;	% 跳过此节点
 									end
 								end
+
+								drawCube(x, y, z);
 							
 								list(x, y, z).x = x;	% x坐标
 								list(x, y, z).y = y;	%	y坐标
@@ -105,4 +107,30 @@ function path = findPath(range, obstacles)
 			end
 		end
 	end
+end
+
+
+
+function drawCube(x, y, z)
+	% 绘制立方体
+	vertices = [	% 指定八个定点的坐标
+		x - 0.5, y - 0.5, z - 0.5;
+		x - 0.5, y - 0.5, z + 0.5;
+		x - 0.5, y + 0.5, z - 0.5;
+		x - 0.5, y + 0.5, z + 0.5;
+		x + 0.5, y - 0.5, z - 0.5;
+		x + 0.5, y - 0.5, z + 0.5;
+		x + 0.5, y + 0.5, z - 0.5;
+		x + 0.5, y + 0.5, z + 0.5;
+	];
+	faces = [	% 指定每个面的四个定点
+		1 2 4 3;
+		5 6 8 7;
+		1 2 6 5;
+		3 4 8 7;
+		2 4 8 6;
+		1 3 7 5
+	];
+	cube = patch('Faces', faces, 'Vertices', vertices, 'FaceColor', 'b', 'FaceAlpha', 0.1, 'EdgeColor', 'none');
+	drawnow;
 end

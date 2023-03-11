@@ -19,8 +19,8 @@ function path = findPath(range, obstacles, step)
 		nearest = node(index(1), :);	% 获取最近节点
 		diff = (point - nearest) / tmp(1) ^ 0.5;	% 计算步长
 		reachable = true;	% 初始化为可达
-		for k = 1 : step	% 将路径离散化并进行障碍物判断
-			tmp = nearest + diff * k;
+		for k = 1 : 10	% 将路径离散化并进行障碍物判断
+			tmp = nearest + diff * k / step;
 			if isObstacle(struct('x', tmp(1), 'y', tmp(2), 'z', tmp(3)), obstacles)	% 若为障碍物
 				reachable = false;	% 不可达
 				break	% 结束判断
@@ -28,13 +28,18 @@ function path = findPath(range, obstacles, step)
 		end
 
 		if reachable	% 若路径可达
-			newNode = nearest + diff * 10;
+			newNode = nearest + diff * step;
 			node = [node ; newNode];
 			parent = [parent index(1)];
 			% 保存此节点
 
+			l = size(node, 1);
+			if l > 1
+				plot3([nearest(1), newNode(1)], [nearest(2), newNode(2)], [nearest(3), newNode(3)], 'b');
+				drawnow;
+			end
+
 			distance = [range range range] - newNode;
-			sum(distance .* distance)
 			if sum(distance .* distance) < step ^ 2	% 若到达目标点附近
 				key =  length(parent);
 				while true
@@ -44,8 +49,6 @@ function path = findPath(range, obstacles, step)
 						break;
 					end
 				end
-
-				path
 
 				cd './rrt';
 				return;

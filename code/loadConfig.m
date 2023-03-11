@@ -3,7 +3,7 @@ function config = loadConfig()
 	config = struct;
 
 
-	config.motionRange = 100;
+	config.motionRange = 10;
 	% 设置运动空间范围
 	
 	config.obstaclesInfo.cubeNum = 3;			% 立方体数量

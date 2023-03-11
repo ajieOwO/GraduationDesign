@@ -3,7 +3,7 @@ function path = findPath(range, obstacles, apf)
 	% path = [0 0 0];
 	cd '../';
 
-	path = [];
+	path = [1 1 1];
 	node = [1 1 1];
 
 	while true
@@ -13,7 +13,11 @@ function path = findPath(range, obstacles, apf)
 		diff = atan(force);
 		node = node + diff / norm(diff) * apf.step;
 		path = [path; node];
-		if max(abs(node - [range range range])) < apf.step
+		l = size(path, 1);
+		plot3(path(l - 1 : l, 1), path(l - 1 : l, 2), path(l - 1 : l, 3), 'b');
+		drawnow;
+		if norm(node - [range range range]) < apf.step
+			path = [path; range range range];
 			break;
 		end
 	end

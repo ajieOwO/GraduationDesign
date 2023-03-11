@@ -1,6 +1,7 @@
-function drawMap(config, path)
+function drawMap(config)
+	% function drawMap(config, path)
 	% 绘制地图
-	figure(1);
+	figure('visible', 'on');
 	hold on;
 
 	for k = 1 : length(config.obstacles.cube)
@@ -15,14 +16,14 @@ function drawMap(config, path)
 	alpha(config.color.alpha);
 	% 绘制障碍物
 
-	plot3(path(:, 1), path(:, 2), path(:, 3));
-	% 绘制路径
+	% plot3(path(:, 1), path(:, 2), path(:, 3));
+	% % 绘制路径
 
 	motionRange = config.motionRange;
 	view(3);	% 展示三维窗口
 	grid on;	% 显示网格
 	axis equal;	% 保持坐标轴比例一致
-	range = [1; motionRange];
+	range = [1; motionRange * 1.1];
 	axis([range; range; range]);	% 设置显示范围
 
 	xlabel('x');
@@ -35,6 +36,7 @@ function drawMap(config, path)
 	text(motionRange, motionRange, motionRange, '终点');
 
 	set(gcf,'outerposition',get(0,'screensize'));%全屏显示figure
+	drawnow;
 end
 
 function drawCube(cube, color)

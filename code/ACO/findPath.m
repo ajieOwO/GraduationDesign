@@ -9,19 +9,21 @@ function path = findPath(range, obstacles, aco)
 	for times = 1 : aco.Iterations
 		tic;
 		kill = 0;
+		trackLength = 0;
 		for m = 1 : aco.antNum	% 每只蚂蚁单独计算
 			[ant success] = findSinglePath(true);	% 进行一次寻路
 			if success
-				refreshPhoromone(ant, range ^ 2 / length(ant));
+				trackLength = trackLength + length(ant);
+				refreshPhoromone(ant, range ^ 3 / length(ant) ^ 2);
 				% 根据长度设置信息素浓度
 			else
 				kill = kill + 1;
 				refreshPhoromone(ant, -0.1);
 			end
 		end
-		pheromone = pheromone * 0.9;	% 淡化信息素浓度
+		pheromone = pheromone * 0.95;	% 淡化信息素浓度
 		toc;
-		disp(['第',num2str(times),'轮迭代：落入陷阱', num2str(kill), '只', '，成功寻路', num2str(aco.antNum - kill), '只']);
+		disp(['第',num2str(times),'轮迭代：落入陷阱', num2str(kill), '只', '，成功寻路', num2str(aco.antNum - kill), '只平均轨迹长度', num2str(trackLength / (aco.antNum - kill))]);
 	end
 
 	[ant success] = findSinglePath(false);
@@ -41,6 +43,7 @@ function path = findPath(range, obstacles, aco)
 				success = true;
 				return;
 			end
+			currentNode = getPosition(current);
 
 			nearList = [];	% 候选节点列表
 			
@@ -52,7 +55,7 @@ function path = findPath(range, obstacles, aco)
 							continue;	% 排除当前节点
 						end
 
-						node = getPosition(current) + [a b c];	% 新节点坐标
+						node = currentNode + [a b c];	% 新节点坐标
 						index = getIndex(node);	% 新节点索引
 						if min(node) < 1 || max(node) > range
 							continue;	% 排除不存在节点
@@ -64,15 +67,14 @@ function path = findPath(range, obstacles, aco)
 							continue;	% 排除已经过节点
 						end
 
+						
+
 						currentPhoromone = pheromone(2 + a, 2 + b, 2 + c, current);
 						otherPhoromone = pheromone(2 - a, 2 - b, 2 - c, index);
 						% 分别获取本节点储存的目标节点信息素浓度，和目标节点储存的本节点信息素浓度
 
 
-						thePheromone = currentPhoromone + otherPhoromone;
-						if excitation
-							thePheromone = (thePheromone + 1) * rand(1) * aco.excitation;
-						end
+						thePheromone = (currentPhoromone + otherPhoromone + 0.01) ^ 2;
 						nearList = [nearList; [index, thePheromone]];
 						% 将当前新节点列入候选节点
 					end
@@ -80,9 +82,17 @@ function path = findPath(range, obstacles, aco)
 			end
 
 			if length(nearList)	% 有可选节点
-				[tmp, index] = sort(nearList, 1, 'descend');	% 对所有可选节点排序
-				nearestIndex = index(1, 2);	% 最优节点在可选节点列表中的索引
-				nearestNodeIndex = nearList(nearestIndex, 1);	% 最优节点的索引
+				if(size(nearList, 1) > 1)
+					if excitation
+						index = randsample(length(nearList), 1, true, nearList(:, 2));
+					else
+						[tmp, index] = sort(nearList, 1, 'descend');	% 对所有可选节点排序
+						index = index(1, 2);
+					end
+				else
+					index = 1;
+				end
+				nearestNodeIndex = nearList(index, 1);	% 最优节点的索引
 				ant = [ant nearestNodeIndex];	% 将信息素浓度最高的作为下一节点
 			else	% 无可选节点
 				success = false;
@@ -98,7 +108,11 @@ function path = findPath(range, obstacles, aco)
 			nextNode = ant(k);	% 下一节点索引
 			relative = getPosition(nextNode) - getPosition(thisNode) + [2 2 2];	% 当前节点指向下一节点的方位矩阵
 			currentPhoromone = pheromone(relative(1), relative(2), relative(3), thisNode);	% 当前信息素浓度
-			pheromone(relative(1), relative(2), relative(3), thisNode) = currentPhoromone + increase;
+			if currentPhoromone + increase < 0 
+				pheromone(relative(1), relative(2), relative(3), thisNode) = 0;
+			else
+				pheromone(relative(1), relative(2), relative(3), thisNode) = currentPhoromone + increase;
+			end
 		end
 	end
 
